@@ -16,8 +16,8 @@ class DateVariable():
     def encode_as_number(self) -> pd.Series:
         if not pd.api.types.is_datetime64_any_dtype(self.column):
             self.column = self.column.apply(
-                DateVariable.parse_string_date)  # Apply, działa dla każdego elementu danej serii (jakby w pętli)
-            # Brak jawnego przekazywania argumentu, ale no apply jest tak zaprojektowany, aby przekazywać automatycznie każdy element serii jako argument
+                DateVariable.parse_string_date)
+
 
         # Wyodrębnienie składowych daty
         years = self.column.dt.year

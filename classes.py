@@ -72,7 +72,7 @@ class NumericVariable():
 
     def detect_outlier_iqr(self) -> list:
         Q1 = np.percentile(self.column,
-                           25)  # Będziemy testować, czy działa metoda z numpy na pd.Series, jak nie to użyjemy quantile z pandas
+                           25)  # Będziemy testować, czy działa metoda z numpy na pd.Series, jak nie to użyjemy quantile z pandas # Dane są traktowane jakby były już posortowane (mega ciekawe)
         Q3 = np.percentile(self.column, 75)
         IQR = Q3 - Q1
         upper_limit = Q3 + 1.5 * IQR  # Wartości mniejsze niż lower_limit lub większe od upper_limit są potencjalnie odstające
