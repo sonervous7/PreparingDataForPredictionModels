@@ -1,0 +1,16 @@
+# .venv directory
+.venv/
+
+# .idea/ directory
+.idea/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Misc
+*.log
+*.sqlite3
+.DS_Store
+

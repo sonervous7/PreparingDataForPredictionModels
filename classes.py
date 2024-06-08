@@ -4,7 +4,7 @@ from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
 from utils import DateVariable
 
 
-class DataSet():
+class DataSet:
     def __init__(self, path=None, data=None):
         if data is not None and path is None:
             self.data = data
@@ -24,9 +24,8 @@ class CategoricalVariable():
         self.column = column
 
     @staticmethod
-    def ordinal_encode(column : pd.Series,
-                       show_mapping=False):  # Zastanowiłbym się na tym type hint, bo jednak w zależnośći od wartości show_mapping inne typy są zwracane
-        encoder = OrdinalEncoder()  # Tworzenie instancji klasy OrdinalEncoder
+    def ordinal_encode(column : pd.Series, show_mapping=False):
+        encoder = OrdinalEncoder()
         encoder_fitted = encoder.fit(pd.DataFrame(column))
         encoded_data = encoder.fit_transform(pd.DataFrame(column))
         inverse_transformation = encoder_fitted.inverse_transform(encoded_data)
@@ -71,27 +70,18 @@ class NumericVariable():
         self.column = column
 
     def detect_outlier_iqr(self) -> list:
-        Q1 = np.percentile(self.column,
-                           25)  # Będziemy testować, czy działa metoda z numpy na pd.Series, jak nie to użyjemy quantile z pandas # Dane są traktowane jakby były już posortowane (mega ciekawe)
+        Q1 = np.percentile(self.column,25)
         Q3 = np.percentile(self.column, 75)
         IQR = Q3 - Q1
-        upper_limit = Q3 + 1.5 * IQR  # Wartości mniejsze niż lower_limit lub większe od upper_limit są potencjalnie odstające
+        upper_limit = Q3 + 1.5 * IQR
         lower_limit = Q1 - 1.5 * IQR
 
-        '''
-        Tworzymy maskę, gdzię outlier_mask to wartości, które są poza granicami (|) to operator logiczny OR w pandas 
-        '''
         outliers_mask = (self.column < lower_limit) | (self.column > upper_limit)
 
         # Uzyskanie indeksów obserwacji odstających
         outliers_indices = self.column[outliers_mask].index.to_list()
 
         return outliers_indices
-
-
-# Pokazywanie, że kod zwraca poprawną wartość i detect_outlier_iqr działa poprawnie
-object = NumericVariable(pd.Series([1, 2, 3, 10 ** 7])).detect_outlier_iqr()
-print(object)
 
 
 class CategoricalData(DataSet):

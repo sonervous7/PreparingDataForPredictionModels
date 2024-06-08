@@ -33,7 +33,7 @@ class DateVariable():
 class DataImputation():
 
     def mode_imputation(self,
-                        column: pd.Series):  # Najcześciej wyśtepująca, wypełnianie niekompletnych danych most_common_value z nich
+                        column: pd.Series):  # Najcześciej wystepująca, wypełnianie niekompletnych danych most_common_value z nich
         mode = column.mode()[0]
         return column.fillna(mode)
 
